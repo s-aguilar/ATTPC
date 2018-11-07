@@ -146,29 +146,6 @@ for index, row in df.iterrows():
 
 kinematicInfo = []
 
-
-# e_Knots = np.linspace(0,35,100)
-# dXdE_E = pt10C.dXdE(e_Knots)
-# dEdX_E = pt10C.dEdX(e_Knots)
-#
-# X = [0.]*len(e_Knots-1)
-#
-# step = len(e_Knots)-1-1
-#
-# # trapezoidal integration (b-a)*(f(b)+f(a))/2.
-# while step >=0:
-#     trapezoid = X[step+1]+0.5*(e_Knots[step+1]-e_Knots[step]) * \
-#                 (dXdE_E[step+1]+dXdE_E[step])
-#     X[step] = trapezoid
-#     step -=1
-#
-#
-# spline = CubicSpline(list(reversed(X)),list(reversed(dEdX_E)))
-# print(spline.integrate(0,36))
-# xs = np.linspace(0,39.6,1000)
-# plt.plot(xs,spline(xs),color='b')
-# plt.show()
-
 splineBeam = beamEnergyLoss(pt10C,35)
 splineAlpha = beamEnergyLoss(pt4He,24)
 
@@ -255,6 +232,33 @@ for x in range(len(evLoss_val)):
 
 e10C,e4He = [kineticEnergyAfterCollision(x)[0] for x in e10], \
             [kineticEnergyAfterCollision(x)[1] for x in e10]
+
+
+e10 = np.array(e10)
+e10C = np.array(e10C)
+e4He = np.array(e4He)
+
+
+####
+
+
+####
+
+"""
+# plt.scatter(e10C+e4He,e10,s=3)
+# plt.title("Assuming $^{10}C(\\alpha,\\alpha)^{10}C$")
+# plt.xlabel("$E_{^{10}C} + E_{^{4}He}$")
+# plt.ylabel("$E_{Vertex}$")
+# plt.show()
+#
+# plt.scatter(e10C+e4He,e10,s=3)
+# plt.title("Assuming $^{10}C(\\alpha,\\alpha)^{10}C$")
+# plt.xlim(0,50)
+# plt.xlabel("$E_{^{10}C} + E_{^{4}He}$")
+# plt.ylim(0,50)
+# plt.ylabel("$E_{Vertex}$")
+# plt.show()
+"""
 
 
 # Clean up the data

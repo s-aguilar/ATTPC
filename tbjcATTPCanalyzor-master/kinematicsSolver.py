@@ -165,7 +165,7 @@ def generalAngleToAngleEnergy(e_vertex,mass_vertex,theta_1,mass_1,mass_2):
     theta1 = theta_1 * np.pi/180
 
     # Apply conservation of momentum
-    mom0 = classicalEnergyToMomentum(e_vertex,_m10C)
+    mom0 = classicalEnergyToMomentum(e_vertex,mass_vertex)#,_m10C)
 
     # 2 solutions from quadratic equation
     mom1_1,mom1_2 = quadraticSolver(1+mass_2/mass_1,-2*mom0*np.cos(theta1),-mom0*mom0*(mass_2/mass_vertex-1))
