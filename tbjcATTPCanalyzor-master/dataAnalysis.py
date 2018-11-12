@@ -45,12 +45,6 @@ def beamEnergyLoss(table,E):
     return spline
 
 
-"""
-##########
-## MAIN ##
-##########
-"""
-
 ###############
 # THEORETICAL #
 ###############
@@ -60,7 +54,7 @@ e1_plot,ang1_plot,e2_plot,ang2_plot,r1_plot,r2_plot = np.array([]),np.array([]),
 _e1_plot,_ang1_plot,_e2_plot,_ang2_plot,_r1_plot,_r2_plot = np.array([]),np.array([]),np.array([]),np.array([]),np.array([]),np.array([])
 __e1_plot,__ang1_plot,__e2_plot,__ang2_plot,__r1_plot,__r2_plot = np.array([]),np.array([]),np.array([]),np.array([]),np.array([]),np.array([])
 
-erange = np.linspace(6,19,5) #20,8
+erange = np.linspace(6,19,15) #20,8
 
 
 pt4He = PowerTable("Tables/EnergyTable/He_HeCO2_400_Torr.txt")
@@ -80,30 +74,30 @@ for iii in erange:
     e1,ang1,e2,ang2 = generalAngleToAngleEnergy(ev,_m10C,ang1,_m4He,_m10C)
     e1_plot = np.append(e1_plot,e1)
     r1_plot = np.append(r1_plot,pt4He.E2R(e1))
-    # r1_plot = np.append(r1_plot,pt4He.E2R(e1))
+
     ang1_plot = np.append(ang1_plot,ang1)
     e2_plot = np.append(e2_plot,e2)
     r2_plot = np.append(r2_plot,pt10C.E2R(e2))
-    # r2_plot = np.append(r2_plot,pt10C.E2R(e2))
     ang2_plot = np.append(ang2_plot,ang2)
 
-    # 11B
-    _e1,_ang1,_e2,_ang2 = generalAngleToAngleEnergy(ev,_m11B,_ang1,_m4He,_m11B)
-    _e1_plot = np.append(_e1_plot,_e1)
-    _r1_plot = np.append(_r1_plot,pt4He.E2R(_e1))
-    _ang1_plot = np.append(_ang1_plot,_ang1)
-    _e2_plot = np.append(_e2_plot,_e2)
-    _r2_plot = np.append(_r2_plot,pt11B.E2R(_e2))
-    _ang2_plot = np.append(_ang2_plot,_ang2)
+    # # 11B
+    # _e1,_ang1,_e2,_ang2 = generalAngleToAngleEnergy(ev,_m11B,_ang1,_m4He,_m11B)
+    # _e1_plot = np.append(_e1_plot,_e1)
+    # _r1_plot = np.append(_r1_plot,pt4He.E2R(_e1))
+    # _ang1_plot = np.append(_ang1_plot,_ang1)
+    # _e2_plot = np.append(_e2_plot,_e2)
+    # _r2_plot = np.append(_r2_plot,pt11B.E2R(_e2))
+    # _ang2_plot = np.append(_ang2_plot,_ang2)
+    #
+    # # 10B
+    # __e1,__ang1,__e2,__ang2 = generalAngleToAngleEnergy(ev,_m10B,__ang1,_m4He,_m10B)
+    # __e1_plot = np.append(__e1_plot,__e1)
+    # __r1_plot = np.append(__r1_plot,pt4He.E2R(__e1))
+    # __ang1_plot = np.append(__ang1_plot,__ang1)
+    # __e2_plot = np.append(__e2_plot,__e2)
+    # __r2_plot = np.append(__r2_plot,pt10B.E2R(__e2))
+    # __ang2_plot = np.append(__ang2_plot,__ang2)
 
-    # 10B
-    __e1,__ang1,__e2,__ang2 = generalAngleToAngleEnergy(ev,_m10B,__ang1,_m4He,_m10B)
-    __e1_plot = np.append(__e1_plot,__e1)
-    __r1_plot = np.append(__r1_plot,pt4He.E2R(__e1))
-    __ang1_plot = np.append(__ang1_plot,__ang1)
-    __e2_plot = np.append(__e2_plot,__e2)
-    __r2_plot = np.append(__r2_plot,pt10B.E2R(__e2))
-    __ang2_plot = np.append(__ang2_plot,__ang2)
 
 
 ################
@@ -111,18 +105,38 @@ for iii in erange:
 ################
 
 # Load data into a pandas data frame
-with open('data/full_data.dat') as f:
-    l = json.load(f)
-    info = []
-    for d in l:
-        x = d['data']
-        info.append({'runID':d['runID'],'fileID':d['fileID'],'eventID':d['eventID'],
+
+dataFile = 'data/full_data.dat'
+# dataFile = 'attpcGeantData/geant.dat'
+
+if dataFile == 'data/full_data.dat':
+    with open(dataFile) as f:
+        l = json.load(f)
+        info = []
+        for d in l:
+            x = d['data']
+            info.append({'runID':d['runID'],'fileID':d['fileID'],'eventID':d['eventID'],
                'x1':x[0][0],'y1':x[0][1],
                'x2':x[1][0],'y2':x[1][1],
                'x3':x[2][0],'y3':x[2][1],
                'xc':x[3][0],'yc':x[3][1]})
 
-    df = pd.DataFrame(info)
+        df = pd.DataFrame(info)
+
+elif dataFile == 'attpcGeantData/geant.dat':
+    with open(dataFile) as f:
+        l = json.load(f)
+        info = []
+        for d in l:
+            x = d['data']
+            info.append({'eventID':d['eventID'],
+               'x1':x[0][0],'y1':x[0][1],
+               'x2':x[1][0],'y2':x[1][1],
+               'x3':x[2][0],'y3':x[2][1],
+               'xc':x[3][0],'yc':x[3][1]})
+
+        df = pd.DataFrame(info)
+
 
 # Extract the values into list, calculate range and append
 x =[]
@@ -166,10 +180,9 @@ for index in range(len(x)):
 
     # Convert range to energy and add to tuples
     eVert = 0.
-    # eloss10C= float(pt10C.R2E(sortedFinal[1][2]))
-    # eloss4He = float(pt4He.R2E(sortedFinal[2][2]))
-    eloss10C= splineBeam.integrate(0,sortedFinal[1][2])
-    eloss4He = splineAlpha.integrate(0,sortedFinal[2][2])
+
+    eloss10C= splineBeam.integrate(0,sortedFinal[1][2])   ##[1][2]
+    eloss4He = splineAlpha.integrate(0,sortedFinal[2][2]) ##[2][2]
     elossBeam = splineBeam.integrate(0,sortedFinal[3][2])
 
     sortedFinal[0] = sortedFinal[0] + (eVert,)
@@ -222,44 +235,20 @@ angle2 = [x[2][4] for x in kinematicInfo]
 e_beam = 34.5 # MeV
 ebeam = []
 e10 = []
-fwhm = 1 # MeV
-sigma = fwhm/2.355
+
 for x in range(len(evLoss_val)):
-    energy = sigma*np.random.randn()+e_beam
+    energy = e_beam
     ebeam.append(energy)
     vertexE = energy-ebeamLoss_val[x]
     e10.append(vertexE)
 
-e10C,e4He = [kineticEnergyAfterCollision(x)[0] for x in e10], \
-            [kineticEnergyAfterCollision(x)[1] for x in e10]
+# e10C,e4He = [kineticEnergyAfterCollision(x)[0] for x in e10], \
+#             [kineticEnergyAfterCollision(x)[1] for x in e10]
 
 
-e10 = np.array(e10)
-e10C = np.array(e10C)
-e4He = np.array(e4He)
-
-
-####
-
-
-####
-
-"""
-# plt.scatter(e10C+e4He,e10,s=3)
-# plt.title("Assuming $^{10}C(\\alpha,\\alpha)^{10}C$")
-# plt.xlabel("$E_{^{10}C} + E_{^{4}He}$")
-# plt.ylabel("$E_{Vertex}$")
-# plt.show()
-#
-# plt.scatter(e10C+e4He,e10,s=3)
-# plt.title("Assuming $^{10}C(\\alpha,\\alpha)^{10}C$")
-# plt.xlim(0,50)
-# plt.xlabel("$E_{^{10}C} + E_{^{4}He}$")
-# plt.ylim(0,50)
-# plt.ylabel("$E_{Vertex}$")
-# plt.show()
-"""
-
+############
+# PLOTTING #
+############
 
 # Clean up the data
 data = []
@@ -285,6 +274,47 @@ phi1 = df1_clean['phi1']
 phi2 = df1_clean['phi2']
 e_10 = df1_clean['e_10']
 
+
+
+###############################################################################
+######################
+# ELASTIC SCATTERING #
+######################
+
+
+for i in range(0,10):
+    print('\n\n')
+    print('E_vertex: %5.4f'%e_10.iloc[i],'\tSum of E_loss: %5.4f'%(e1_loss.iloc[i]+e2_loss.iloc[i]))
+
+elastic_e_10 = np.linspace(0,34.5,100)
+elastic_e10C,elastic_e4He = kineticEnergyAfterCollision(elastic_e_10)
+
+if dataFile == 'data/full_data.dat':
+    plt.scatter(e_10-e1_loss-e2_loss,e_10,c='b',s=4,label='Experimental')
+    # plt.scatter(e1_loss+e2_loss,e_10,c='b',s=4,label='Experimental')
+    plt.plot(elastic_e4He+elastic_e10C,elastic_e_10,c='r',antialiased=True,label='Elastic')
+    plt.xlim(0,40)
+    plt.ylim(0,40)
+    plt.xlabel("$E_{^{10}C} + E_{^{4}He}$")
+    plt.ylabel("$E_{Vertex}$")
+    plt.legend()
+    plt.savefig('plots/exp_10C_scatter.png')
+    plt.show()
+
+elif dataFile == 'attpcGeantData/geant.dat':
+    plt.scatter(e_10+e1_loss+e2_loss,e_10,c='b',s=4,label='Simulation')
+    plt.plot(elastic_e4He+elastic_e10C,elastic_e_10,c='r',antialiased=True,label='Elastic')
+    plt.xlim(0,40)
+    plt.ylim(0,40)
+    plt.xlabel("$E_{^{10}C} + E_{^{4}He}$")
+    plt.ylabel("$E_{Vertex}$")
+    plt.legend()
+    plt.savefig('plots/simu_10C_scatter.png')
+    plt.show()
+###############################################################################
+
+
+# # Angle-Angle Plot
 # #plt.hist2d(phi1,phi2,
 # phi1,phi2 = np.sort(df1_clean[['phi1','phi2']],axis=1).T
 # plt.hist2d(np.concatenate([phi1,phi2]),np.concatenate([phi2,phi1]),
@@ -308,21 +338,29 @@ e_10 = df1_clean['e_10']
 # plt.show()
 # print(len(e1_plot),len(e2_plot),len(ang2_plot))
 
-# 3D surface plot
-fig = plt.figure(dpi=150)
-ax = fig.gca(projection='3d')
 
-ax.plot_trisurf(r1_plot,e2_plot,ang2_plot,color='b', alpha=0.8)#,label=r'$^{10}C(\alpha,\alpha)^{10}C$')
-# ax.plot_trisurf(_r1_plot,_e2_plot,ang2_plot,color='r', alpha=0.8)#,label=r'$^{10}C(\alpha,\alpha)^{10}C$')
-# ax.plot_trisurf(__e1_plot,__e2_plot,ang2_plot,color='y', alpha=0.8)#,label=r'$^{10}C(\alpha,\alpha)^{10}C$')
 
-ax.scatter(l2,l1,phi1,color='r', s=0.25, alpha = 0.5,rasterized=True)
-ax.set_xlim(0,50)
-ax.set_ylim(0,50)
-ax.set_zlim(0,90)
 
-ax.set_xlabel("range 1")
-ax.set_ylabel("range 2")
-ax.set_zlabel(r"$\theta_{2}$")
-# ax.legend()
-plt.show()
+# # 3D surface plot
+# fig = plt.figure(dpi=150)
+# ax = fig.gca(projection='3d')
+#
+# # ax.plot_trisurf(r1_plot,e2_plot,ang2_plot,color='b', alpha=0.8)#,label=r'$^{10}C(\alpha,\alpha)^{10}C$')
+# # ax.plot_trisurf(_r1_plot,_e2_plot,ang2_plot,color='r', alpha=0.8)#,label=r'$^{10}C(\alpha,\alpha)^{10}C$')
+# # ax.plot_trisurf(__e1_plot,__e2_plot,ang2_plot,color='y', alpha=0.8)#,label=r'$^{10}C(\alpha,\alpha)^{10}C$')
+#
+# ax.scatter(e_10,e2_loss,phi2,color='r', s=0.25, alpha = 0.5,rasterized=True)
+# ax.set_xlabel("e_10")
+# ax.set_ylabel("e2_loss")
+# ax.set_zlabel(r"$\theta_{2}$")
+#
+# # ax.scatter(l2,l1,phi1,color='r', s=0.25, alpha = 0.5,rasterized=True)
+# # ax.set_xlim(0,50)
+# # ax.set_ylim(0,50)
+# # ax.set_zlim(0,90)
+#
+# # ax.set_xlabel("range 1")
+# # ax.set_ylabel("range 2")
+# # ax.set_zlabel(r"$\theta_{2}$")
+# # ax.legend()
+# plt.show()

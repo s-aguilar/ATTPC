@@ -1,6 +1,6 @@
 import os
-path = '/afs/crc.nd.edu/group/nsl/activetarget/users/saguilar/tbjcATTPCanalyzor-master'
-os.chdir(path)
+# path = '/afs/crc.nd.edu/group/nsl/activetarget/users/saguilar/tbjcATTPCanalyzor-master'
+# os.chdir(path)
 
 import math
 import json
@@ -93,7 +93,7 @@ while stepper < 20000:
     # break
 
     try:
-        points,(xc,yc) = VertexAnalyzor.GetEventPositions(image,0) ## 1 for debug mode and plots, 0 for just running
+        points,(xc,yc) = VertexAnalyzor.GetEventPositions(image,1) ## 1 for debug mode and plots, 0 for just running
         xc,yc = (xc-150)*scale_x, (yc-300)*scale_y
         points = [(float((x-150)*scale_x),float((y-300)*scale_y)) for x,y in points]+[(xc,yc)]
         dist.append({'eventID':stepper//2,'data':points})

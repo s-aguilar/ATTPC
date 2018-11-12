@@ -29,7 +29,7 @@ def kineticEnergyAfterCollision(E10):
     """
     ke10C = E10 * ((_m10C-_m4He)/(_m10C+_m4He))**2
     ke4He = E10 * (1 - ((_m10C-_m4He)/(_m10C+_m4He))**2 )
-    return [ke10C,ke4He]
+    return np.array([ke10C,ke4He])
 
 def classicalEnergyToMomentum(energy,mass):
     """ unit: energy(MeV), mass(MeV/c^2)"""

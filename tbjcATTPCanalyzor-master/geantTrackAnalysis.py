@@ -267,31 +267,31 @@ e_10 = df1_clean['e_10']
 
 print(l1)
 
-# plt.hist2d(phi1,phi2,
-# # phi1,phi2 = np.sort(df1_clean[['phi1','phi2']],axis=1).T
-# # plt.hist2d(np.concatenate([phi1,phi2]),np.concatenate([phi2,phi1]),
-#            bins=[np.arange(0,100,1),np.arange(0,100,1)],
-#            norm=LogNorm());
-#
-# poly = [[60,35],[35,60],[30,50],[50,30],[60,35]]
-# path2 = mplPath.Path(poly)
-# patch2 = patches.PathPatch(path2,facecolor=(0,0,0,0),EdgeColor='r',lw=3,\
-#                            linestyle='--',antialiased=True)
-# plt.gca().add_patch(patch2)
-#
-# plt.plot(ang1,ang2,color='b',antialiased=True,linewidth=3)
-# plt.plot(ang2,ang1,color='b',antialiased=True,linewidth=3)
-#
-# poly = [[75,5],[5,75],[5,5],[75,5]]
-# path1 = mplPath.Path(poly)
-# patch1 = patches.PathPatch(path1,facecolor=(0,0,0,0),EdgeColor='b',lw=3,\
-#                            linestyle='--',antialiased=True)
-#
-# plt.xlabel('$\\theta_{1}$')
-# plt.ylabel('$\\theta_{2}$')
-#
-# plt.gca().add_patch(patch1)
-# plt.show()
+plt.hist2d(phi1,phi2,
+# phi1,phi2 = np.sort(df1_clean[['phi1','phi2']],axis=1).T
+# plt.hist2d(np.concatenate([phi1,phi2]),np.concatenate([phi2,phi1]),
+           bins=[np.arange(0,100,1),np.arange(0,100,1)],
+           norm=LogNorm());
+
+poly = [[60,35],[35,60],[30,50],[50,30],[60,35]]
+path2 = mplPath.Path(poly)
+patch2 = patches.PathPatch(path2,facecolor=(0,0,0,0),EdgeColor='r',lw=3,\
+                           linestyle='--',antialiased=True)
+plt.gca().add_patch(patch2)
+
+plt.plot(ang1,ang2,color='b',antialiased=True,linewidth=3)
+plt.plot(ang2,ang1,color='b',antialiased=True,linewidth=3)
+
+poly = [[75,5],[5,75],[5,5],[75,5]]
+path1 = mplPath.Path(poly)
+patch1 = patches.PathPatch(path1,facecolor=(0,0,0,0),EdgeColor='b',lw=3,\
+                           linestyle='--',antialiased=True)
+
+plt.xlabel('$\\theta_{1}$')
+plt.ylabel('$\\theta_{2}$')
+
+plt.gca().add_patch(patch1)
+plt.show()
 
 """
 # 3D surface plot
